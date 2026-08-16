@@ -1,0 +1,10 @@
+<header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center gap-3">
+        <h1 class="text-lg font-semibold text-slate-900">{% block page_title %}Dashboard{% endblock %}</h1>
+    </div>
+    <div class="flex items-center gap-4">
+        <div class="w-9 h-9 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-semibold text-sm">
+            {{ request.user.first_name|slice:":1"|upper|default:request.user.email|slice:":1"|upper }}
+        </div>
+    </div>
+</header>
