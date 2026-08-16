@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Transactions — {{ APP_NAME }}{% endblock %}
+{% block page_title %}Transactions{% endblock %}
+{% block content %}
+<div class="flex justify-end mb-4">
+    <a href="{% url 'web:transaction_create' %}" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+        + Add Transaction
+    </a>
+</div>
+<div class="bg-white rounded-2xl border border-slate-200">
+    <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="font-semibold text-slate-900">All Transactions</h3>
+        <span class="text-xs text-slate-400">{{ transactions|length }} shown (latest 100)</span>
+    </div>
+    {% if transactions %}
+    <table class="w-full text-sm">
+        <thead>
+            <tr class="text-left text-slate-400 border-b border-slate-100">
+                <th class="px-5 py-3 font-medium">Date</th>
+                <th class="px-5 py-3 font-medium">Description</th>
+                <th class="px-5 py-3 font-medium">Category</th>
+                <th class="px-5 py-3 font-medium">Account</th>
+                <th class="px-5 py-3 font-medium text-right">Amount</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+            {% for txn in transactions %}
+            <tr class="hover:bg-slate-50">
+                <td class="px-5 py-3 text-slate-500">{{ txn.transaction_date }}</td>
+                <td class="px-5 py-3 font-medium text-slate-900">{{ txn.description|default:txn.merchant|default:"—" }}</td>
+                <td class="px-5 py-3 text-slate-500">{{ txn.category.name|default:"Uncategorized" }}</td>
+                <td class="px-5 py-3 text-slate-500">{{ txn.account.name }}</td>
+                <td class="px-5 py-3 text-right font-semibold {% if txn.transaction_type == 'credit' %}text-emerald-600{% else %}text-rose-600{% endif %}">
+                    {% if txn.transaction_type == 'credit' %}+{% else %}−{% endif %}{{ txn.currency }} {{ txn.amount|floatformat:2|intcomma }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="p-12 text-center">
+        <p class="text-slate-400 mb-4">No transactions yet.</p>
+        <a href="{% url 'web:transaction_create' %}" class="inline-block bg-brand-600 hover:bg-brand-700 text-white font-semibold px-5 py-2.5 rounded-lg transition">
+            Add your first transaction
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

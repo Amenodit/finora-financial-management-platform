@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Add Account — {{ APP_NAME }}{% endblock %}
+{% block page_title %}Add Account{% endblock %}
+{% block content %}
+<div class="max-w-lg bg-white rounded-2xl border border-slate-200 p-6">
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Account name</label>
+            {{ form.name }}
+            {% if form.name.errors %}<p class="text-rose-600 text-xs mt-1">{{ form.name.errors.0 }}</p>{% endif %}
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Type</label>
+            {{ form.account_type }}
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Institution</label>
+            {{ form.institution }}
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Currency</label>
+                {{ form.currency }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Opening balance</label>
+                {{ form.opening_balance }}
+            </div>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Last 4 digits (optional)</label>
+            {{ form.last_four_digits }}
+            {% if form.last_four_digits.errors %}<p class="text-rose-600 text-xs mt-1">{{ form.last_four_digits.errors.0 }}</p>{% endif %}
+            <p class="text-xs text-slate-400 mt-1">Stored encrypted. We never ask for full account numbers or passwords.</p>
+        </div>
+        <div class="flex gap-3 pt-2">
+            <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-5 py-2.5 rounded-lg transition">
+                Add account
+            </button>
+            <a href="{% url 'web:accounts' %}" class="text-slate-500 px-5 py-2.5 hover:text-slate-700">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

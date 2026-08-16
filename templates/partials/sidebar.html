@@ -1,0 +1,41 @@
+{% load static %}
+<aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-white border-r border-slate-200">
+    <div class="h-16 flex items-center gap-2 px-6 border-b border-slate-200">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white font-bold">F</div>
+        <span class="font-bold text-lg tracking-tight text-slate-900">{{ APP_NAME }}</span>
+    </div>
+    <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+        {% url 'web:dashboard' as dashboard_url %}
+        {% url 'web:transactions' as transactions_url %}
+        {% url 'web:accounts' as accounts_url %}
+        {% url 'web:budgets' as budgets_url %}
+        {% url 'web:savings' as savings_url %}
+        {% url 'web:statements' as statements_url %}
+        {% url 'web:reports' as reports_url %}
+        {% url 'web:family' as family_url %}
+        {% url 'web:analytics' as analytics_url %}
+        {% url 'web:settings' as settings_url %}
+
+        {% include "partials/_navlink.html" with url=dashboard_url label="Dashboard" %}
+        {% include "partials/_navlink.html" with url=transactions_url label="Transactions" %}
+        {% include "partials/_navlink.html" with url=accounts_url label="Accounts" %}
+        {% include "partials/_navlink.html" with url=budgets_url label="Budgets" %}
+        {% include "partials/_navlink.html" with url=savings_url label="Savings" %}
+        {% include "partials/_navlink.html" with url=statements_url label="Bank Statements" %}
+        {% include "partials/_navlink.html" with url=reports_url label="Reports" %}
+        {% include "partials/_navlink.html" with url=family_url label="Family" %}
+        {% include "partials/_navlink.html" with url=analytics_url label="Analytics" %}
+
+        <div class="pt-4 mt-4 border-t border-slate-200">
+            {% include "partials/_navlink.html" with url=settings_url label="Settings" %}
+        </div>
+    </nav>
+    <div class="p-3 border-t border-slate-200">
+        <form method="post" action="{% url 'web:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="w-full text-left text-sm text-slate-500 hover:text-rose-600 px-3 py-2 rounded-lg hover:bg-rose-50 transition">
+                Log out
+            </button>
+        </form>
+    </div>
+</aside>

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ section }} — {{ APP_NAME }}{% endblock %}
+{% block page_title %}{{ section }}{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto text-center py-20">
+    <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 text-2xl mb-4">⚙</div>
+    <h2 class="text-xl font-semibold text-slate-900">{{ section }}</h2>
+    <p class="text-slate-500 mt-2">This module is scheduled for the next build phase.</p>
+</div>
+{% endblock %}

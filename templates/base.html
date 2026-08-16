@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ APP_NAME }}{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#eef2ff', 100:'#e0e7ff', 500:'#4f46e5', 600:'#4338ca', 700:'#3730a3'
+              }
+            },
+            fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] }
+          }
+        }
+      }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.12/htmx.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', ui-sans-serif, system-ui; }</style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="h-full text-slate-800 antialiased">
+{% if messages %}
+<div class="fixed top-4 right-4 z-50 space-y-2" x-data="{}" >
+    {% for message in messages %}
+    <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)"
+         x-transition
+         class="rounded-lg px-4 py-3 shadow-lg text-sm font-medium
+                {% if message.tags == 'success' %}bg-emerald-600 text-white
+                {% elif message.tags == 'error' %}bg-rose-600 text-white
+                {% else %}bg-slate-800 text-white{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if request.user.is_authenticated %}
+<div class="min-h-full flex">
+    {% include "partials/sidebar.html" %}
+    <div class="flex-1 flex flex-col min-w-0">
+        {% include "partials/topbar.html" %}
+        <main class="flex-1 p-4 sm:p-6 lg:p-8">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% else %}
+    {% block auth_content %}{% endblock %}
+{% endif %}
+</body>
+</html>
